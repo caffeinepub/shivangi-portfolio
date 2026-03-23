@@ -1,0 +1,86 @@
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --radius: 0.75rem;
+    --background: 0.1 0.006 253;
+    --foreground: 0.95 0.005 253;
+    --card: 0.13 0.008 253;
+    --card-foreground: 0.95 0.005 253;
+    --popover: 0.13 0.008 253;
+    --popover-foreground: 0.95 0.005 253;
+    --primary: 0.82 0.18 85;
+    --primary-foreground: 0.1 0.006 253;
+    --secondary: 0.2 0.01 253;
+    --secondary-foreground: 0.95 0.005 253;
+    --muted: 0.18 0.008 253;
+    --muted-foreground: 0.65 0.012 253;
+    --accent: 0.82 0.18 85;
+    --accent-foreground: 0.1 0.006 253;
+    --destructive: 0.577 0.245 27.325;
+    --destructive-foreground: 0.985 0 0;
+    --border: 0.22 0.01 253;
+    --input: 0.22 0.01 253;
+    --ring: 0.82 0.18 85;
+    --chart-1: 0.82 0.18 85;
+    --chart-2: 0.7 0.14 85;
+    --chart-3: 0.55 0.1 85;
+    --chart-4: 0.4 0.07 85;
+    --chart-5: 0.28 0.04 85;
+    --sidebar: 0.13 0.008 253;
+    --sidebar-foreground: 0.95 0.005 253;
+    --sidebar-primary: 0.82 0.18 85;
+    --sidebar-primary-foreground: 0.1 0.006 253;
+    --sidebar-accent: 0.2 0.01 253;
+    --sidebar-accent-foreground: 0.95 0.005 253;
+    --sidebar-border: 0.22 0.01 253;
+    --sidebar-ring: 0.82 0.18 85;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer utilities {
+  .yellow-glow {
+    box-shadow: 0 0 32px oklch(0.82 0.18 85 / 0.25);
+  }
+  .yellow-text-glow {
+    text-shadow: 0 0 40px oklch(0.82 0.18 85 / 0.4);
+  }
+  .card-hover {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px oklch(0.82 0.18 85 / 0.12);
+  }
+}
