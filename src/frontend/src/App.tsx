@@ -112,7 +112,7 @@ const CASE_STUDIES = [
     execution:
       "Brochures, menu cards, hoardings, and standees tailored to each brand.",
     result: "Improved brand perception and offline engagement.",
-    link: "https://drive.google.com/drive/folders/1hVEbppj2K0fkJzw7aGDcuujdIEin2sdT?usp=drive_link",
+    link: "https://print-design-portfolio-667.caffeine.xyz/",
   },
   {
     id: 3,
@@ -125,7 +125,7 @@ const CASE_STUDIES = [
       "Platform-native aesthetics with strong CTA placement and targeted messaging.",
     execution: "Ad creatives, carousel posts, and branded content.",
     result: "Improved engagement and conversion performance.",
-    link: "https://drive.google.com/drive/folders/1dw4-LXialAmKp3bDRupTsg_tj9tEyGzS?usp=drive_link",
+    link: "https://socialmedia-wxc.caffeine.xyz/",
   },
 ];
 
