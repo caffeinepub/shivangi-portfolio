@@ -98,7 +98,7 @@ const CASE_STUDIES = [
     execution:
       "Bold typography, high-contrast backgrounds, emotion-driven layouts.",
     result: "CTR improved from 3.2% to 10.3% within 60 days.",
-    link: "https://drive.google.com/drive/folders/1CFrXdqun77k-DiNvehcgFeEedGLvA5zC?usp=drive_link",
+    link: "?page=youtube-thumbnails",
   },
   {
     id: 2,
@@ -224,6 +224,14 @@ export default function App() {
     "home",
   );
 
+  // Check URL query param to support opening YouTube Thumbnails page in new tab
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("page") === "youtube-thumbnails") {
+      setCurrentPage("youtube-thumbnails");
+    }
+  }, []);
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -261,13 +269,19 @@ export default function App() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
+          {/* Header branding: two-line layout */}
           <button
             type="button"
             data-ocid="nav.link"
             onClick={() => scrollTo("home")}
-            className="text-primary font-display font-black text-sm tracking-widest uppercase whitespace-nowrap"
+            className="flex flex-col items-start leading-none"
           >
-            SHIVANGI &bull; GRAPHIC DESIGNER
+            <span className="text-primary font-display font-black text-base tracking-widest uppercase">
+              SHIVANGI
+            </span>
+            <span className="text-primary/80 font-display font-semibold text-[10px] tracking-[0.25em] uppercase mt-0.5">
+              GRAPHIC DESIGNER
+            </span>
           </button>
           <nav className="hidden md:flex items-center gap-6">
             {NAV_LINKS.map(({ label, id }) => (
@@ -377,15 +391,17 @@ export default function App() {
               Lucknow, India
             </div>
             <div className="flex flex-wrap justify-center gap-4">
+              {/* VIEW MY WORK → scroll to Selected Works section */}
               <Button
                 data-ocid="hero.works.button"
-                onClick={() => setCurrentPage("youtube-thumbnails")}
+                onClick={() => scrollTo("works")}
                 className="bg-primary text-primary-foreground font-display font-black uppercase tracking-widest px-8 py-6 text-sm rounded-full yellow-glow hover:bg-primary/90"
               >
                 VIEW MY WORK <ChevronRight size={16} className="ml-1" />
               </Button>
+              {/* DOWNLOAD CV → direct link in new tab */}
               <a
-                href="https://drive.google.com/drive/folders/1MA-I1Z6y47wllD5Amw31_twfqASlsUML?usp=drive_link"
+                href="https://drive.google.com/file/d/1haEqJXHoiFug3P0s-OfX7qEiO8YycUuj/view?usp=drive_link"
                 target="_blank"
                 rel="noopener noreferrer"
                 data-ocid="hero.cv.button"
@@ -549,115 +565,65 @@ export default function App() {
               SELECTED <span className="text-primary">WORKS</span>
             </h2>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
-              {CASE_STUDIES.map((cs, i) =>
-                cs.id === 1 ? (
-                  <motion.div
-                    key={cs.id}
-                    data-ocid={`works.item.${i + 1}`}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: i * 0.12 }}
-                    onClick={() => setCurrentPage("youtube-thumbnails")}
-                    className="bg-card border border-border rounded-2xl overflow-hidden card-hover flex flex-col h-full cursor-pointer"
-                  >
-                    <div className="w-full h-52 overflow-hidden flex-shrink-0">
-                      <img
-                        src={cs.image}
-                        alt={cs.title}
-                        className="w-full h-full object-cover"
-                      />
+              {CASE_STUDIES.map((cs, i) => (
+                <motion.a
+                  key={cs.id}
+                  href={
+                    cs.id === 1
+                      ? `${window.location.pathname}?page=youtube-thumbnails`
+                      : cs.link
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-ocid={`works.item.${i + 1}`}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: i * 0.12 }}
+                  className="bg-card border border-border rounded-2xl overflow-hidden card-hover flex flex-col h-full cursor-pointer"
+                >
+                  <div className="w-full h-52 overflow-hidden flex-shrink-0">
+                    <img
+                      src={cs.image}
+                      alt={cs.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="p-6 flex flex-col gap-4 flex-1">
+                    <div className="flex items-center justify-between gap-2">
+                      <h3 className="font-display font-black text-lg text-foreground leading-tight">
+                        {cs.title}
+                      </h3>
+                      <Badge className="bg-primary text-primary-foreground font-display text-xs uppercase tracking-wider shrink-0">
+                        {cs.tag}
+                      </Badge>
                     </div>
-                    <div className="p-6 flex flex-col gap-4 flex-1">
-                      <div className="flex items-center justify-between gap-2">
-                        <h3 className="font-display font-black text-lg text-foreground leading-tight">
-                          {cs.title}
-                        </h3>
-                        <Badge className="bg-primary text-primary-foreground font-display text-xs uppercase tracking-wider shrink-0">
-                          {cs.tag}
-                        </Badge>
-                      </div>
-                      <div className="space-y-3 text-sm font-body">
-                        {[
-                          { k: "Objective", v: cs.objective, bold: false },
-                          { k: "Approach", v: cs.approach, bold: false },
-                          { k: "Execution", v: cs.execution, bold: false },
-                          { k: "Result", v: cs.result, bold: true },
-                        ].map(({ k, v, bold }) => (
-                          <div key={k}>
-                            <span className="text-primary font-semibold uppercase tracking-wider text-xs">
-                              {k}
-                            </span>
-                            <p
-                              className={`mt-1 ${
-                                bold
-                                  ? "text-foreground font-semibold"
-                                  : "text-muted-foreground"
-                              }`}
-                            >
-                              {v}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
+                    <div className="space-y-3 text-sm font-body">
+                      {[
+                        { k: "Objective", v: cs.objective, bold: false },
+                        { k: "Approach", v: cs.approach, bold: false },
+                        { k: "Execution", v: cs.execution, bold: false },
+                        { k: "Result", v: cs.result, bold: true },
+                      ].map(({ k, v, bold }) => (
+                        <div key={k}>
+                          <span className="text-primary font-semibold uppercase tracking-wider text-xs">
+                            {k}
+                          </span>
+                          <p
+                            className={`mt-1 ${
+                              bold
+                                ? "text-foreground font-semibold"
+                                : "text-muted-foreground"
+                            }`}
+                          >
+                            {v}
+                          </p>
+                        </div>
+                      ))}
                     </div>
-                  </motion.div>
-                ) : (
-                  <motion.a
-                    key={cs.id}
-                    href={cs.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    data-ocid={`works.item.${i + 1}`}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: i * 0.12 }}
-                    className="bg-card border border-border rounded-2xl overflow-hidden card-hover flex flex-col h-full cursor-pointer"
-                  >
-                    <div className="w-full h-52 overflow-hidden flex-shrink-0">
-                      <img
-                        src={cs.image}
-                        alt={cs.title}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="p-6 flex flex-col gap-4 flex-1">
-                      <div className="flex items-center justify-between gap-2">
-                        <h3 className="font-display font-black text-lg text-foreground leading-tight">
-                          {cs.title}
-                        </h3>
-                        <Badge className="bg-primary text-primary-foreground font-display text-xs uppercase tracking-wider shrink-0">
-                          {cs.tag}
-                        </Badge>
-                      </div>
-                      <div className="space-y-3 text-sm font-body">
-                        {[
-                          { k: "Objective", v: cs.objective, bold: false },
-                          { k: "Approach", v: cs.approach, bold: false },
-                          { k: "Execution", v: cs.execution, bold: false },
-                          { k: "Result", v: cs.result, bold: true },
-                        ].map(({ k, v, bold }) => (
-                          <div key={k}>
-                            <span className="text-primary font-semibold uppercase tracking-wider text-xs">
-                              {k}
-                            </span>
-                            <p
-                              className={`mt-1 ${
-                                bold
-                                  ? "text-foreground font-semibold"
-                                  : "text-muted-foreground"
-                              }`}
-                            >
-                              {v}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </motion.a>
-                ),
-              )}
+                  </div>
+                </motion.a>
+              ))}
             </div>
           </motion.div>
         </section>
